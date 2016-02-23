@@ -2,6 +2,30 @@
     android:layout_width="fill_parent"
     android:layout_height="fill_parent" >
 
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_gravity="right">
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Add Ball"
+            android:id="@+id/moreBalls"
+            android:singleLine="true"
+            android:layout_gravity="left" />
+
+        <ToggleButton
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="New ToggleButton"
+            android:id="@+id/toggleButton"
+            android:layout_gravity="bottom"
+            android:textOn="Expert"
+            android:textOff="Beginner" />
+    </LinearLayout>
+
     <mukai18.ponggamemukaicondon.AnimationSurface
         android:id="@+id/animationSurface"
         android:layout_width="fill_parent"

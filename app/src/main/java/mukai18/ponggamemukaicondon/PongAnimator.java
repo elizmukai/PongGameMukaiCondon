@@ -8,15 +8,21 @@ import android.view.MotionEvent;
  * class that animates a ball repeatedly moving diagonally on
  * simple background
  *
- * @author Steve Vegdahl
- * @author Andrew Nuxoll
- * @version February 2016
+ * @author Teresa Condon
+ * @author Liz Mukai
+ *
+ * @version 2/26/16
  */
-public class TestAnimator implements Animator {
+public class PongAnimator implements Animator {
 
     // instance variables
     private int count = 0; // counts the number of logical clock ticks
     private boolean goBackwards = false; // whether clock is ticking backwards
+    private int x = 0;
+    private int y = 0;
+    private int radius = 60;
+    private int height = 0;
+    private int width = 0;
 
     /**
      * Interval between animation frames: .03 seconds (i.e., about 33 times
@@ -35,7 +41,8 @@ public class TestAnimator implements Animator {
      */
     public int backgroundColor() {
         // create/return the background color
-        return Color.rgb(11, 245, 206);
+        return Color.rgb(227, 206, 246);
+        // external citation from color codes
     }
 
     /**
@@ -67,6 +74,8 @@ public class TestAnimator implements Animator {
 
         drawWalls(g);
 
+        drawPaddle(g);
+
     }
 
     public void drawBalls(Canvas g) {
@@ -76,23 +85,41 @@ public class TestAnimator implements Animator {
         // (with the appropriate correction if the value was negative)
         // has the effect of "wrapping around" when we get to either end
         // (since our canvas size is 600 in each dimension).
-        int num = (count*15)%800;
-        if (num < 0) num += 800;
+        width = g.getWidth();
+        height = g.getHeight();
+
+        x = (count*15)%(g.getWidth());
+        if (x < 0) x += g.getWidth();
+
+        y = (count*15)%(g.getHeight());
+        if (y < 0) y += g.getHeight();
 
         // Draw the ball in the correct position.
         Paint redPaint = new Paint();
         redPaint.setColor(Color.RED);
-        g.drawCircle(num, num, 60, redPaint);
+        g.drawCircle(x, y, radius, redPaint);
         redPaint.setColor(0xff0000ff);
     }
 
     public void drawWalls(Canvas g) {
 
         Paint paint = new Paint();
-        paint.setColor(Color.BLACK);
+        paint.setColor(Color.GRAY);
         paint.setStyle(Paint.Style.FILL);
-        g.drawRect(0f,150f,500f,200f,paint);
-        paint.setColor(0xff000000);
+        g.drawRect(0f, 0f, 80f, g.getHeight()- 80f, paint);
+
+        g.drawRect(0f, 0f, g.getWidth(), 80f, paint);
+
+        g.drawRect(g.getWidth() - 80f, 0f, g.getWidth(), g.getHeight() - 80f, paint);
+    }
+
+    public void drawPaddle(Canvas g) {
+        Paint paddle = new Paint();
+        paddle.setColor(0xFF2EFE64);
+
+        //external citation for color from http://html-color-codes.info/
+
+        g.drawRect((g.getWidth()/2) - 300, g.getHeight() - 80,(g.getWidth()/2) + 300, g.getHeight(),paddle);
     }
 
     /**
@@ -101,7 +128,12 @@ public class TestAnimator implements Animator {
      * @return indication of whether to pause
      */
     public boolean doPause() {
-        return false;
+        if ((y+radius > height && (x +radius < (width/2) - 300) | (y + radius > height && (x-radius > (height/2)) | (x+radius < width)))) {
+            return true;
+        }
+        else {
+            return false;
+        }
     }
 
     /**
@@ -110,6 +142,7 @@ public class TestAnimator implements Animator {
      * @return indication of whether to quit.
      */
     public boolean doQuit() {
+
         return false;
     }
 
