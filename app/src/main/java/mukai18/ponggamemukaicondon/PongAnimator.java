@@ -37,7 +37,7 @@ public class PongAnimator implements Animator {
      * @return the time interval between frames, in milliseconds.
      */
     public int interval() {
-        return 60;
+        return 80;
     }
 
     /**
@@ -58,7 +58,7 @@ public class PongAnimator implements Animator {
      */
     public void goBackwards(boolean b) {
         // set our instance variable
-        //goBackwards = b;
+        goBackwards = b;
     }
 
     /**
@@ -76,14 +76,16 @@ public class PongAnimator implements Animator {
             count++;
         }
 
-        x = (count*15)%(g.getWidth());
-        if (x < 0) x += g.getWidth();
+        x = (count*10)%(g.getWidth());
+        if (x < 180) x += g.getWidth();
 
-        y = (count*15)%(g.getHeight());
-        if (y < 0) y += g.getHeight();
+        y = (count*10)%(g.getHeight());
+        if (y < 80) y += g.getHeight();
+
+
 
         minX = 180;
-        minY = 90;
+        minY = 80;
         maxX = g.getWidth() - 80;
         maxY = g.getHeight();
 
@@ -91,11 +93,17 @@ public class PongAnimator implements Animator {
         newBall.moveSpot(x, y, maxX, maxY, minX, minY);
         newBall.draw(g);
 
+
         drawWalls(g);
 
         drawPaddle(g);
 
         //g.invalidate();
+
+    }
+
+    public void update() {
+
 
     }
 
@@ -121,7 +129,6 @@ public class PongAnimator implements Animator {
         g.drawCircle(x, y, radius, redPaint);
         redPaint.setColor(0xff0000ff);
 
-        newBall.draw(g);
     }
 
     public void drawWalls(Canvas g) {
@@ -145,11 +152,13 @@ public class PongAnimator implements Animator {
 
 
 
-        g.drawRect(g.getWidth()/2 - 300, g.getHeight() -80, g.getWidth()/2 + 300, g.getHeight(), paddle);
+        g.drawRect(g.getWidth()/2 - 300, g.getHeight() - 80, g.getWidth()/2 + 300, g.getHeight(), paddle);
 
     }
 
     public void paddle(int paddleX,int paddleY, int paddleH, int paddleW) {
+
+
     }
     /**
      * Tells that we never pause.
@@ -173,7 +182,6 @@ public class PongAnimator implements Animator {
      * @return indication of whether to quit.
      */
     public boolean doQuit() {
-
         return false;
     }
 
@@ -184,7 +192,6 @@ public class PongAnimator implements Animator {
     {
         if (event.getAction() == MotionEvent.ACTION_DOWN)
         {
-            //goBackwards = !goBackwards;
         }
     }
 

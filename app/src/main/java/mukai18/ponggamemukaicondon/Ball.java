@@ -29,8 +29,6 @@ public class Ball {
     protected int maxY; // height of the screen (pixels)
     protected int minX;
     protected int minY;
-    private final int ballVX = 3;
-    private final int ballVY = 3;
 
 
     /**
@@ -119,8 +117,9 @@ public class Ball {
      * adjusts the spot's position by a given delta. If the change would move
      * the spot outside of a given boundary, it is stopped at that boundary
      *
-     * @param aX,   aY        how much to change the spots x,y position by
-     * @param maxX, maxY    the maximum allowed value for x,y position (minimum is zero)
+     * @param deltaXY   how much to change the spots x,y position by
+     * @param maxXY     the maximum allowed value for x,y position
+     * @param minXY     the minimum allowed value for x,y position
      */
     public void moveSpot(float aX, float aY, int maxX, int maxY, int minX, int minY) {
 
@@ -129,33 +128,34 @@ public class Ball {
         vx += aX;
         vy += aY;
 
-        vx *= 0.45f;
-        vy *= 0.45f;
+        vx *= .99f;
+        vy *= .99f;
 
         x += vx;
         y += vy;
 
+
+
         // adjust the spot if it goes off an edge
         if (x + getSize() > maxX) {
             x = maxX - getSize();
-            vx = -2.25f * vx;
+            vx = -.8f * vx;
         }
         if (y + getSize() > maxY) {
             y = maxY - getSize();
-            vy = -2.25f * vy;
+            vy = -.8f * vy;
         }
         if (x - getSize() < minX) {
             x = getSize();
-            vx = -2.25f * vx;
+            vx = -.8f * vx;
         }
         if (y - getSize() < minY) {
             y = getSize();
-            vy = -2.25f * vy;
+            vy = -.8f * vy;
         }
 
-
-
     }//moveSpot
+
 
     /**
      * determines whether this spot overlaps another one
@@ -171,6 +171,7 @@ public class Ball {
 
         return dist <= this.getSize() + other.getSize();
     }//overlaps
+
 
 
     /**

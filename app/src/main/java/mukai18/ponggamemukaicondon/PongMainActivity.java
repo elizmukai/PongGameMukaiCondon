@@ -66,6 +66,21 @@ public class PongMainActivity extends Activity implements View.OnClickListener, 
 
     }
 
+    @Override
+    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+        if (!level.isChecked()) {
+            paddleX = ((ball.maxX +80)/2) - 300;
+            paddleH = ball.maxY -80;
+            paddleW = ((ball.maxX+80)/2) + 300;
+            paddleY = ball.maxY;
+        }
+        else {
+            paddleX = ((ball.maxX +80)/2) - 150;
+            paddleH = ball.maxY -80;
+            paddleW = ((ball.maxX+80)/2) + 150;
+            paddleY = ball.maxY;
+        }
+    }
 
     public int getPaddleH() {
         return paddleH;
@@ -83,19 +98,4 @@ public class PongMainActivity extends Activity implements View.OnClickListener, 
         return paddleX;
     }
 
-    @Override
-    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-        if (!level.isChecked()) {
-            paddleX = ((ball.maxX +80)/2) - 300;
-            paddleH = ball.maxY -80;
-            paddleW = ((ball.maxX+80)/2) + 300;
-            paddleY = ball.maxY;
-        }
-        else {
-            paddleX = ((ball.maxX +80)/2) - 150;
-            paddleH = ball.maxY -80;
-            paddleW = ((ball.maxX+80)/2) + 150;
-            paddleY = ball.maxY;
-        }
-    }
 }
