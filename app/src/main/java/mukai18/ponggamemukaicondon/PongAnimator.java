@@ -27,7 +27,11 @@ public class PongAnimator implements Animator {
     public int maxY;
     public int minX;
     public int minY;
+    public int velocity;
+
     Ball newBall = new Ball(200,300);
+    float vx;
+    float vy;
 
 
     /**
@@ -37,7 +41,7 @@ public class PongAnimator implements Animator {
      * @return the time interval between frames, in milliseconds.
      */
     public int interval() {
-        return 80;
+        return 100;
     }
 
     /**
@@ -61,6 +65,7 @@ public class PongAnimator implements Animator {
         goBackwards = b;
     }
 
+
     /**
      * Action to perform on clock tick
      *
@@ -76,12 +81,13 @@ public class PongAnimator implements Animator {
             count++;
         }
 
-        x = (count*10)%(g.getWidth());
+        x = (count*150)%(g.getWidth());
         if (x < 180) x += g.getWidth();
 
-        y = (count*10)%(g.getHeight());
+        y = (count*150)%(g.getHeight());
         if (y < 80) y += g.getHeight();
 
+        Math.cos(12.1);
 
 
         minX = 180;
@@ -89,8 +95,11 @@ public class PongAnimator implements Animator {
         maxX = g.getWidth() - 80;
         maxY = g.getHeight();
 
+        vx = newBall.velX();
+        vy = newBall.velY();
 
-        newBall.moveSpot(x, y, maxX, maxY, minX, minY);
+        //newBall.moveSpot(x, y, maxX, maxY, minX, minY);
+        newBall.bounce(g);
         newBall.draw(g);
 
 
@@ -99,11 +108,6 @@ public class PongAnimator implements Animator {
         drawPaddle(g);
 
         //g.invalidate();
-
-    }
-
-    public void update() {
-
 
     }
 
@@ -192,6 +196,7 @@ public class PongAnimator implements Animator {
     {
         if (event.getAction() == MotionEvent.ACTION_DOWN)
         {
+            goBackwards = !goBackwards;
         }
     }
 

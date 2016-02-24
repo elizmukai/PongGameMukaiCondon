@@ -8,6 +8,8 @@ import android.view.Display;
 import android.view.MotionEvent;
 import android.view.WindowManager;
 
+import java.util.Random;
+
 
 /**
  * Created by mukai18 on 2/21/2016.
@@ -113,6 +115,51 @@ public class Ball {
         }
     }
 
+    public float velX() {
+        Random rand = new Random();
+        vy = rand.nextInt(100);
+        return vy;
+    }
+
+    public float velY() {
+        Random rand = new Random();
+        vx = rand.nextInt(100);
+        return vx;
+    }
+
+    public void setVelocity(float initVelocityX, float initVelocityY ) {
+        vx = initVelocityX;
+        vy = initVelocityY;
+    }
+
+    public void update() {
+        x = x + vx;
+        y = y + vy;
+    }
+
+    public void bounce(Canvas g) {
+        update();
+        int width = g.getWidth()  - 80;
+        int height = g.getHeight() - 80;
+
+        if (x + getSize() >  g.getWidth() - 80) {
+            x = width - getSize();
+            vx = -vx ;//* -.9f;
+        }
+        if (y + getSize() > g.getHeight()-80) {
+            y = height - getSize();
+            vy = -vy; //* -9f;
+        }
+        if (x - getSize() < 180) {
+            x = getSize();
+            vx = -vx; //* -9f;
+        }
+        if (y - getSize() < 80) {
+            y = getSize();
+            vy = -vy; //*-9f;
+        }
+
+    }
     /**
      * adjusts the spot's position by a given delta. If the change would move
      * the spot outside of a given boundary, it is stopped at that boundary

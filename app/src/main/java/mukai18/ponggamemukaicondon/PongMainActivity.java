@@ -17,6 +17,8 @@ import android.widget.CompoundButton;
 import android.widget.LinearLayout;
 import android.widget.ToggleButton;
 
+import java.util.Random;
+
 /**
  * PongMainActivity
  *
@@ -37,10 +39,13 @@ public class PongMainActivity extends Activity implements View.OnClickListener, 
     Button addBalls = null;
     ToggleButton level = null;
     PongAnimator ball = new PongAnimator();
+    Ball nBall = new Ball();
     public int paddleX;
     public int paddleY;
     public int paddleW;
     public int paddleH;
+    public float vx;
+    public float vy;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -51,6 +56,10 @@ public class PongMainActivity extends Activity implements View.OnClickListener, 
         // Connect the animation surface with the animator
         AnimationSurface mySurface = (AnimationSurface) this.findViewById(R.id.animationSurface);
         mySurface.setAnimator(new PongAnimator());
+
+        vx = nBall.velX();
+        vy = nBall.velY();
+        nBall.setVelocity(vx,vy);
 
 
         addBalls = (Button)findViewById(R.id.moreBalls);
