@@ -23,19 +23,25 @@ public class PongAnimator implements Animator {
     private int radius = 60;
     private int height = 0;
     private int width = 0;
+    public int maxX;
+    public int maxY;
+    public int minX;
+    public int minY;
+    Ball newBall = new Ball(200,300);
+
 
     /**
-     * Interval between animation frames: .03 seconds (i.e., about 33 times
+     * Interval between animation frames: .06 seconds (i.e., about 33 times
      * per second).
      *
      * @return the time interval between frames, in milliseconds.
      */
     public int interval() {
-        return 30;
+        return 60;
     }
 
     /**
-     * The background color: a light blue.
+     * The background color: a light purple.
      *
      * @return the background color onto which we will draw the image.
      */
@@ -52,7 +58,7 @@ public class PongAnimator implements Animator {
      */
     public void goBackwards(boolean b) {
         // set our instance variable
-        goBackwards = b;
+        //goBackwards = b;
     }
 
     /**
@@ -70,11 +76,26 @@ public class PongAnimator implements Animator {
             count++;
         }
 
-        drawBalls(g);
+        x = (count*15)%(g.getWidth());
+        if (x < 0) x += g.getWidth();
+
+        y = (count*15)%(g.getHeight());
+        if (y < 0) y += g.getHeight();
+
+        minX = 180;
+        minY = 90;
+        maxX = g.getWidth() - 80;
+        maxY = g.getHeight();
+
+
+        newBall.moveSpot(x, y, maxX, maxY, minX, minY);
+        newBall.draw(g);
 
         drawWalls(g);
 
         drawPaddle(g);
+
+        //g.invalidate();
 
     }
 
@@ -99,6 +120,8 @@ public class PongAnimator implements Animator {
         redPaint.setColor(Color.RED);
         g.drawCircle(x, y, radius, redPaint);
         redPaint.setColor(0xff0000ff);
+
+        newBall.draw(g);
     }
 
     public void drawWalls(Canvas g) {
@@ -114,26 +137,34 @@ public class PongAnimator implements Animator {
     }
 
     public void drawPaddle(Canvas g) {
+
         Paint paddle = new Paint();
         paddle.setColor(0xFF2EFE64);
 
         //external citation for color from http://html-color-codes.info/
 
-        g.drawRect((g.getWidth()/2) - 300, g.getHeight() - 80,(g.getWidth()/2) + 300, g.getHeight(),paddle);
+
+
+        g.drawRect(g.getWidth()/2 - 300, g.getHeight() -80, g.getWidth()/2 + 300, g.getHeight(), paddle);
+
     }
 
+    public void paddle(int paddleX,int paddleY, int paddleH, int paddleW) {
+    }
     /**
      * Tells that we never pause.
      *
      * @return indication of whether to pause
      */
     public boolean doPause() {
-        if ((y+radius > height && (x +radius < (width/2) - 300) | (y + radius > height && (x-radius > (height/2)) | (x+radius < width)))) {
+        /*if ((y+radius > height && (x +radius < (width/2) - 300) | (y + radius > height && (x-radius > (height/2)) | (x+radius < width)))) {
             return true;
         }
         else {
             return false;
-        }
+        }*/
+        return false;
+
     }
 
     /**
@@ -153,7 +184,7 @@ public class PongAnimator implements Animator {
     {
         if (event.getAction() == MotionEvent.ACTION_DOWN)
         {
-            goBackwards = !goBackwards;
+            //goBackwards = !goBackwards;
         }
     }
 
